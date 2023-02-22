@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
+import Common
+import UI
+import DependencyKit
 
 @main
 struct movie_app_iosApp: App {
+    
+    lazy var initializers: [Initializable] = [
+        DIInitializer() // must be the first item
+    ]
+    
+    init() {
+        self.initializers.forEach {
+            $0.performInitialization()
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentContainerView()
         }
     }
 }
