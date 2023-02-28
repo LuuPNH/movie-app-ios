@@ -11,8 +11,8 @@
 		6D5405AC296C10DB004535F2 /* movie_app_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5405AB296C10DB004535F2 /* movie_app_iosTests.swift */; };
 		6D5405B6296C10DB004535F2 /* movie_app_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5405B5296C10DB004535F2 /* movie_app_iosUITests.swift */; };
 		6D5405B8296C10DB004535F2 /* movie_app_iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5405B7296C10DB004535F2 /* movie_app_iosUITestsLaunchTests.swift */; };
-		6D88AA1D296D56140087FDB9 /* package-movie-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 6D88AA1C296D56140087FDB9 /* package-movie-ios */; };
 		6D88AA20296D59F20087FDB9 /* DIInitiallizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D88AA1F296D59F20087FDB9 /* DIInitiallizer.swift */; };
+		6D8DAB8529ADD9B800B1003F /* package-movie-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 6D8DAB8429ADD9B800B1003F /* package-movie-ios */; };
 		6DD809FB299E01E100D75E1B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD809FA299E01E100D75E1B /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,9 +41,9 @@
 		6D5405B1296C10DB004535F2 /* movie-app-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "movie-app-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D5405B5296C10DB004535F2 /* movie_app_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = movie_app_iosUITests.swift; sourceTree = "<group>"; };
 		6D5405B7296C10DB004535F2 /* movie_app_iosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = movie_app_iosUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		6D5405C4296C113A004535F2 /* package-movie-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "package-movie-ios"; path = "../package-movie-ios"; sourceTree = "<group>"; };
 		6D88AA1F296D59F20087FDB9 /* DIInitiallizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIInitiallizer.swift; sourceTree = "<group>"; };
 		6DD809FA299E01E100D75E1B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6DF1527629ADD85400CB3072 /* package-movie-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "package-movie-ios"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D88AA1D296D56140087FDB9 /* package-movie-ios in Frameworks */,
+				6D8DAB8529ADD9B800B1003F /* package-movie-ios in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +75,7 @@
 		6D54058E296C10DA004535F2 = {
 			isa = PBXGroup;
 			children = (
-				6D5405C4296C113A004535F2 /* package-movie-ios */,
+				6DF1527529ADD85400CB3072 /* Packages */,
 				6D540599296C10DA004535F2 /* movie-app-ios */,
 				6D5405AA296C10DB004535F2 /* movie-app-iosTests */,
 				6D5405B4296C10DB004535F2 /* movie-app-iosUITests */,
@@ -136,6 +136,14 @@
 			path = Initializers;
 			sourceTree = "<group>";
 		};
+		6DF1527529ADD85400CB3072 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				6DF1527629ADD85400CB3072 /* package-movie-ios */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -153,7 +161,7 @@
 			);
 			name = "movie-app-ios";
 			packageProductDependencies = (
-				6D88AA1C296D56140087FDB9 /* package-movie-ios */,
+				6D8DAB8429ADD9B800B1003F /* package-movie-ios */,
 			);
 			productName = "movie-app-ios";
 			productReference = 6D540597296C10DA004535F2 /* movie-app-ios.app */;
@@ -596,7 +604,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6D88AA1C296D56140087FDB9 /* package-movie-ios */ = {
+		6D8DAB8429ADD9B800B1003F /* package-movie-ios */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "package-movie-ios";
 		};
