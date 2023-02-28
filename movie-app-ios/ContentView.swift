@@ -28,6 +28,7 @@ struct ContentContainerView: View {
     
     @StateObject var router = ContentStep.router()
     @StateObject var splashRouter: Router<SplashStep> = SplashStep.router()
+    @StateObject var onBoardingRouter: Router<OnboardingStep> = OnboardingStep.router()
     
     @State var viewType: ContentViewType = .splash
     
@@ -51,6 +52,14 @@ struct ContentContainerView: View {
                 }
         case .onboarding:
             OnboardingView(viewModel: onboardingViewModel)
+                .environmentObject(onBoardingRouter)
+                .onReceive(onBoardingRouter.stream) { step in
+                    
+                    switch step {
+                    case .goHome:
+                        viewType = .home
+                    }
+                }
         case .home:
             Text("Home screen")
         }
