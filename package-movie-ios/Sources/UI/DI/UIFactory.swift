@@ -22,4 +22,8 @@ public extension Container {
     static let showOnboardingViewModel = Factory {
         OnboardingViewModel()
     }
+    
+    static let homeViewModel = Factory {
+        HomeViewModel()
+    }
 }

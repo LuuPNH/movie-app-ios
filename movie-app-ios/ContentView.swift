@@ -10,6 +10,7 @@ import Domain
 import Common
 import UI
 import DependencyKit
+import Resources
 
 enum ContentStep: Step {
     case home
@@ -24,8 +25,18 @@ enum ContentViewType {
 
 struct ContentContainerView: View {
     
-    @StateObject var onboardingViewModel = Container.showOnboardingViewModel()
+    //Color
+    @SwiftUI.Environment(\.colorScheme) var colorScheme
+    @State var themeEnvironmentValue = AppTheme.light
+    @State var themeManager = ThemeManager.shared
     
+    
+    //Container
+    @StateObject var onboardingViewModel = Container.showOnboardingViewModel()
+    @StateObject var homeViewModel = Container.homeViewModel()
+    
+    
+    //Router
     @StateObject var router = ContentStep.router()
     @StateObject var splashRouter: Router<SplashStep> = SplashStep.router()
     @StateObject var onBoardingRouter: Router<OnboardingStep> = OnboardingStep.router()
@@ -34,6 +45,27 @@ struct ContentContainerView: View {
     
     var body: some View {
         buildBody()
+            .onChange(of: colorScheme) { newValue in
+                if themeManager.themePublisher.value == .light {
+                    checkColorScheme(newValue)
+                }
+            }
+            .onReceive(themeManager.themePublisher) { theme in
+                if theme != .light {
+                    themeEnvironmentValue = theme
+                }
+            }
+            .onAppear {
+                checkColorScheme(colorScheme)
+            }
+    }
+    
+    func checkColorScheme(_ colorScheme: ColorScheme) {
+        if colorScheme == .dark {
+            themeEnvironmentValue = .dark
+        } else {
+            themeEnvironmentValue = .light
+        }
     }
     
     @ViewBuilder
@@ -53,15 +85,17 @@ struct ContentContainerView: View {
         case .onboarding:
             OnboardingView(viewModel: onboardingViewModel)
                 .environmentObject(onBoardingRouter)
+                
                 .onReceive(onBoardingRouter.stream) { step in
                     
                     switch step {
-                    case .goHome:
+                    case .home:
                         viewType = .home
                     }
                 }
         case .home:
-            Text("Home screen")
+            HomeView(viewModel: homeViewModel)
+                .environment(\.theme, themeEnvironmentValue)
         }
     }
 }
