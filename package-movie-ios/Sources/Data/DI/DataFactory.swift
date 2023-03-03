@@ -21,21 +21,26 @@ extension Container {
     
 }
 
-public class DataFactory: DataProvider {
+public class DataFactory: DataProvider, EnvironmentProvider {
     
-    public var carouselService: Domain.CarouselService {
+    public var configurationEnvironment: Environment {
+        ConfigurationEnvironment(mode: .development)
+    }
+    
+    
+    public var carouselService: CarouselService {
         CarouselSeverviceImpl()
     }
     
-    public var userDefaultsService: Domain.KeyValue {
+    public var userDefaultsService: KeyValue {
         KeyValueStore.shared
     }
     
-    public var onboardingService: Domain.OnboardingService {
+    public var onboardingService: OnboardingService {
         OnboardingServiceImpl()
     }
     
-    public var authenticationService: Domain.AuthenticationService {
+    public var authenticationService: AuthenticationService {
         AuthenticationServiceImpl()
     }
     

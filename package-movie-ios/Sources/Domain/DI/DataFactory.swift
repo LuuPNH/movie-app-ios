@@ -11,6 +11,8 @@ import DependencyKit
 public extension Container {
     static var dataProvider: DataProvider!
     
+    static let configurationEnvironment = Factory(scope: .singleton) { dataProvider.configurationEnvironment }
+    
     static let userDefaults = Factory(scope: .singleton) { dataProvider.userDefaultsService }
     static let onboardingService = Factory(scope: .singleton) { dataProvider.onboardingService }
     static let authenticationService = Factory { dataProvider.authenticationService }
@@ -20,6 +22,9 @@ public extension Container {
 
 
 public protocol DataProvider {
+    
+    var configurationEnvironment: Environment { get }
+    
     var userDefaultsService: KeyValue { get }
     var onboardingService: OnboardingService { get }
     var authenticationService: AuthenticationService { get }

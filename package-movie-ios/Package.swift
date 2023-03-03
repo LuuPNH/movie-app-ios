@@ -15,7 +15,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-         .package(url: "https://github.com/Moya/Moya", from: "15.0.3"),
+        .package(url: "https://github.com/Moya/Moya", from: "15.0.3"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -24,17 +24,26 @@ let package = Package(
             name: "package-movie-ios",
             dependencies: []),
         .target(name: "Domain",
-               dependencies: ["DependencyKit"]),
+                dependencies: ["DependencyKit"]),
         .target(name: "Data",
-                dependencies: ["DependencyKit", "Domain", .product(name: "CombineMoya", package: "Moya")]),
+                dependencies: [
+                    "DependencyKit",
+                    "Domain",
+                    "Common",
+                    .product(name: "CombineMoya", package: "Moya")
+                ],
+                resources: [
+                    .process("Impl/Configuration/ConfigurationEnvironment.plist")
+                ]
+               ),
         .target(name: "DependencyKit",
-               dependencies: []),
+                dependencies: []),
         .target(name: "Resources",
-               dependencies: []),
+                dependencies: []),
         .target(name: "UI",
-               dependencies: ["Domain", "DependencyKit","Common", "Resources"]),
+                dependencies: ["Domain", "DependencyKit","Common", "Resources"]),
         .target(name: "Common",
-               dependencies: ["Domain", "DependencyKit"]),
+                dependencies: ["Domain", "DependencyKit"]),
         .testTarget(
             name: "package-movie-iosTests",
             dependencies: ["package-movie-ios"]),

@@ -30,9 +30,9 @@ enum CarouselApiTarget {
     case getListNowPlaying
 }
 
-extension CarouselApiTarget: TargetType {
+extension CarouselApiTarget: TargetType, EnvironmentProvider {
     var baseURL: URL {
-        URL(string: "https://api.themoviedb.org/3/")!
+        env.baseUrl
     }
     
     var path: String {
@@ -46,7 +46,7 @@ extension CarouselApiTarget: TargetType {
     var task: Moya.Task {
         .requestParameters(
             parameters:
-                ["api_key" : "96ab22f969e17fcd4b92e1d1c73b4dbc",
+                ["api_key" : env.apiKey,
                  "language": "en-US",
                  "page": 1],
             encoding: URLEncoding.default)
