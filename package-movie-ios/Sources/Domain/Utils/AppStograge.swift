@@ -56,12 +56,6 @@ public struct AppStorageObject<T: Codable> {
     }
 }
 
-public extension Data {
-    func callAsFunction<T: Codable>() -> T? {
-        guard let value = try? JSONDecoder().decode(T.self, from: self) else { return nil }
-        return value
-    }
-}
 
 public extension Encodable {
     var data: Data {

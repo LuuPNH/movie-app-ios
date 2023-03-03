@@ -7,10 +7,25 @@
 
 import Foundation
 import Domain
+import DependencyKit
+import Moya
+
+extension Container {
+    
+    static let network = Factory(scope: .shared) {
+            Network(plugins: [
+                MoyaProvider<MultiTarget>.defaultNetworkLoggerPlugin(),
+                AuthenticationPlugin()
+            ]) as Networking
+        }
+    
+}
 
 public class DataFactory: DataProvider {
     
-    public init() {}
+    public var carouselService: Domain.CarouselService {
+        CarouselSeverviceImpl()
+    }
     
     public var userDefaultsService: Domain.KeyValue {
         KeyValueStore.shared
@@ -23,4 +38,6 @@ public class DataFactory: DataProvider {
     public var authenticationService: Domain.AuthenticationService {
         AuthenticationServiceImpl()
     }
+    
+    public init() {}
 }

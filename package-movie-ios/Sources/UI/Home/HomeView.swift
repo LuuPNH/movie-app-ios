@@ -7,12 +7,15 @@
 
 import SwiftUI
 import Resources
+import DependencyKit
 
 public struct HomeView: View {
     
     @Environment(\.theme) var theme: AppTheme
     
     @ObservedObject var viewModel:HomeViewModel
+    
+    @StateObject var carouselViewModel = Container.carouselViewModel()
     
     public init(viewModel:HomeViewModel) {
         self.viewModel = viewModel
@@ -29,8 +32,7 @@ public struct HomeView: View {
                     .ignoresSafeArea(edges: .top)
             }
             .tabItem {
-                Image(systemName: "house.fill")
-                Text("Trending")
+                CarouselView(viewModel: carouselViewModel)
             }
             Text("Friends Screen")
                 .tabItem {

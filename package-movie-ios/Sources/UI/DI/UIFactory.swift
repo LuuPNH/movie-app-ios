@@ -26,4 +26,8 @@ public extension Container {
     static let homeViewModel = Factory {
         HomeViewModel()
     }
+    
+    static let carouselViewModel = Factory {
+        CarouselViewModel()
+    }
 }

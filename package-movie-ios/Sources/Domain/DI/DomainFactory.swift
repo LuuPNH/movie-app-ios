@@ -21,4 +21,8 @@ extension Container {
     public static let getStartedAppUseCase = Factory {
         GetStratedAppUseCase()
     }
+    
+    public static let carouselUseCase = Factory {
+        CarouselUseCase()
+    }
 }

@@ -26,7 +26,7 @@ let package = Package(
         .target(name: "Domain",
                dependencies: ["DependencyKit"]),
         .target(name: "Data",
-               dependencies: ["DependencyKit", "Domain"]),
+                dependencies: ["DependencyKit", "Domain", .product(name: "CombineMoya", package: "Moya")]),
         .target(name: "DependencyKit",
                dependencies: []),
         .target(name: "Resources",
