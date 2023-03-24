@@ -9,7 +9,7 @@ import Foundation
 import Domain
 
 struct ResultDataMapper: Codable {
-    let data: [Movie]
+    let data: [MovieMapper]
     let page: Int
     let totalPages: Int
     let totalResults: Int
@@ -22,6 +22,6 @@ struct ResultDataMapper: Codable {
     }
     
     func toDomain() -> ResultData {
-        .init(data: data, page: page)
+        .init(data: data.map({ $0.toDomain() }), page: page)
     }
 }

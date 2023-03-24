@@ -9,8 +9,10 @@ import Foundation
 import Common
 
 public enum HomeTab {
-    case trend
-    case favorite
+    case home
+    case search
+    case download
+    case profile
 }
 
 public enum HomeStep: Step {
@@ -27,14 +29,13 @@ public class HomeViewModel: ObservableObject {
     @Published var homeTab: HomeTab?
     
     public init() {
-        homeTab = .trend
+        homeTab = .home
     }
     
     public func dispatch(action: HomeAction) {
-        switch action {
-        case .goTab:
-            homeTab = .trend
-        }
+        
     }
-
+    public func goTab(tab: HomeTab) {
+        homeTab = tab
+    }
 }
