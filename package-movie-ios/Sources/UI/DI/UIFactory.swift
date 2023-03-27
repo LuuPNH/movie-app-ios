@@ -30,4 +30,8 @@ public extension Container {
     static let carouselViewModel = Factory {
         CarouselViewModel()
     }
+    
+    static let categoriesViewModel = Factory {
+        CategoriesViewModel()
+    }
 }

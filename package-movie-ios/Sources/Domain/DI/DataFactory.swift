@@ -16,7 +16,7 @@ public extension Container {
     static let userDefaults = Factory(scope: .singleton) { dataProvider.userDefaultsService }
     static let onboardingService = Factory(scope: .singleton) { dataProvider.onboardingService }
     static let authenticationService = Factory { dataProvider.authenticationService }
-    static let carouselService = Factory { dataProvider.carouselService }
+    static let theMovieDBService = Factory { dataProvider.theMovieDBService }
     
 }
 
@@ -28,5 +28,5 @@ public protocol DataProvider {
     var userDefaultsService: KeyValue { get }
     var onboardingService: OnboardingService { get }
     var authenticationService: AuthenticationService { get }
-    var carouselService: CarouselService { get }
+    var theMovieDBService: TheMovieDBService { get }
 }

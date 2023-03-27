@@ -17,19 +17,13 @@ public enum CarouselAction {
 
 public class CarouselViewModel: ObservableObject {
     
-    @Injected(Container.carouselService) var carouselService
-    @Published private(set) var stateModel: UIStateModel = UIStateModel()
-    @Published private(set) var activeCard: Int = 0
+    @Injected(Container.theMovieDBService) var theMovieDBService
+    
     private var cancellables: [AnyCancellable] = []
     
     @Published var listImageMovie: [Movie] = []
     
     public init() {}
-    
-    private func someCoolMethodHere(for activeCard: Int) {
-            print("someCoolMethodHere: index received: ", activeCard)
-            self.activeCard = activeCard
-        }
     
     public func dispatch(action: CarouselAction) {
         switch action {
@@ -41,7 +35,7 @@ public class CarouselViewModel: ObservableObject {
 
     func getlistNowplaying() {
         Task { @MainActor in
-            let data = try await carouselService.getListCarousel(page: 1)
+            let data = try await theMovieDBService.getListMovie(page: 1, type: .nowPlaying)
             listImageMovie = data
         }
     }

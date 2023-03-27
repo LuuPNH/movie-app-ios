@@ -21,4 +21,8 @@ public protocol Theme {
     var blue242634: Color { get }
     var blue252836: Color { get }
     var grey92929D: Color { get }
+    var blue171725: Color { get }
+    var blue12CDD9: Color { get }
+    var orangeFF8700: Color { get }
+    var grey252836: Color { get }
 }

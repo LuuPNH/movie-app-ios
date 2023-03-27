@@ -17,6 +17,8 @@ public struct HomeView: View {
     
     @StateObject var carouselViewModel = Container.carouselViewModel()
     
+    @StateObject var categoriesViewModel = Container.categoriesViewModel()
+    
     public init(viewModel:HomeViewModel) {
         self.viewModel = viewModel
     }
@@ -30,6 +32,7 @@ public struct HomeView: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 16)
                 CarouselView(viewModel: carouselViewModel)
+                CategoriesView(viewModel: categoriesViewModel)
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -61,8 +64,8 @@ public struct HomeView: View {
         }
     }
 }
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView(viewModel: HomeViewModel())
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView(viewModel: HomeViewModel())
+//    }
+//}

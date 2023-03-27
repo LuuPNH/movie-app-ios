@@ -57,8 +57,7 @@ struct CarouselView: View {
                         .frame(width: 295, height: 154)
                         .background(theme.blue252836)
                         .cornerRadius(16)
-                    }
-                    )
+                    })
                 }
             }
         }
@@ -70,9 +69,9 @@ struct CarouselView: View {
     }
 }
 
-struct SwiftUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        CarouselView(viewModel: CarouselViewModel())
-    }
-}
+//struct SwiftUIView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CarouselView(viewModel: CarouselViewModel())
+//    }
+//}
 

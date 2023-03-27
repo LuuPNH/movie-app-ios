@@ -26,7 +26,7 @@ public enum HomeAction {
 
 public class HomeViewModel: ObservableObject {
     
-    @Published var homeTab: HomeTab?
+    @Published var homeTab: HomeTab
     
     public init() {
         homeTab = .home

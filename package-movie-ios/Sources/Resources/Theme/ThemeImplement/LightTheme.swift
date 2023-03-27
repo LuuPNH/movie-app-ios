@@ -8,6 +8,14 @@
 import SwiftUI
 
 struct LightTheme: Theme {
+    var grey252836: Color = "252836"
+    
+    var orangeFF8700: Color = "FF8700"
+    
+    var blue12CDD9: Color = "12CDD9"
+    
+    var blue171725: Color = "171725"
+    
     var grey92929D: Color = "92929D"
     
     var blue252836: Color = "252836"

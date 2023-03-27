@@ -28,8 +28,8 @@ public class DataFactory: DataProvider, EnvironmentProvider {
     }
     
     
-    public var carouselService: CarouselService {
-        CarouselSeverviceImpl()
+    public var theMovieDBService: TheMovieDBService {
+        TheMovieDBSeverviceImpl()
     }
     
     public var userDefaultsService: KeyValue {
