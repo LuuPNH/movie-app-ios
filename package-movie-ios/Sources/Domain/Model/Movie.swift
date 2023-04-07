@@ -33,7 +33,7 @@ public struct Movie: Hashable, Identifiable {
         self.releaseDate = releaseDate
         self.title = title
         self.video = video
-        self.voteAverage = voteAverage
+        self.voteAverage = (Double(voteAverage) * 50) / 100
         self.voteCount = voteCount
     }
 }

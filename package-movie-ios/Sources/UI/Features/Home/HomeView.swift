@@ -13,6 +13,8 @@ public struct HomeView: View {
     
     @Environment(\.theme) var theme: AppTheme
     
+    @StateObject var imageCacheApp = ImageCache()
+    
     @ObservedObject var viewModel:HomeViewModel
     
     @StateObject var carouselViewModel = Container.carouselViewModel()
@@ -62,6 +64,7 @@ public struct HomeView: View {
                     Text("Profile")
                 }
         }
+        .environmentObject(imageCacheApp)
     }
 }
 //struct HomeView_Previews: PreviewProvider {

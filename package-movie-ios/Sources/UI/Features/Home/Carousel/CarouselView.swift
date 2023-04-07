@@ -29,7 +29,7 @@ struct CarouselView: View {
                           autoScroll: .active(3)
                           
                 ) { item in
-                    AsyncImage(url: URL(string: item.backdropPath), content: { image in
+                    ImageCacheView(url: item.backdropPath, content: { image in
                         image.resizable()
                             .frame(width: 295, height: 154)
                             .cornerRadius(16)

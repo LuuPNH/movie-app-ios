@@ -8,6 +8,7 @@
 import Foundation
 import DependencyKit
 import Domain
+import Resources
 
 public extension Container {
     

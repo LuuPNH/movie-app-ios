@@ -41,6 +41,7 @@ public struct MovieMapper: Codable {
             voteCount: voteCount
         )
     }
+
     enum CodingKeys: String, CodingKey {
         case adult
         case backdropPath = "backdrop_path"

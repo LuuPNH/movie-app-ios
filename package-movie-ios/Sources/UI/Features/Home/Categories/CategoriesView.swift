@@ -48,6 +48,7 @@ public struct CategoriesView: View {
                     }
                 }
             }
+            .padding(.bottom, 16)
             
             CategoriesItem(value: viewModel.selectItem)
             

@@ -17,7 +17,7 @@ public class TheMovieDBSeverviceImpl: TheMovieDBService {
     
     public func getListMovie(page: Int, type: CategoriesMovie) async throws -> [Domain.Movie] {
         
-        let data: ResultDataMapper = try await network.request(targetType: TheMovieDBApiTarget.getListMovie(page: page, type: .nowPlaying))
+        let data: ResultDataMapper = try await network.request(targetType: TheMovieDBApiTarget.getListMovie(page: page, type: type))
         
         return data.toDomain().data
     }

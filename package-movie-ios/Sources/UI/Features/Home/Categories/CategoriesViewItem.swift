@@ -39,13 +39,19 @@ struct CategoriesItem: View {
             if value.isLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: theme.whiteShades))
+            }
+            else if value.movies.isEmpty {
+                Text("No movie here!")
+                    .font(.system(size: 16))
+                    .foregroundColor(theme.whiteShades)
+                    .lineLimit(1)
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
             } else {
-                
                 ScrollView (.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(value.movies) { movie in
-                            AsyncImage(url: URL(string: movie.backdropPath),
-                                       content: { image in
+                            ImageCacheView(url: movie.backdropPath, content: { image in
                                 VStack(alignment: .leading) {
                                     image.resizable()
                                         .frame(width: 135, height: 178)
@@ -57,7 +63,7 @@ struct CategoriesItem: View {
                                                     .padding(.all, 4)
                                                     .frame(width: 12, height: 12)
                                                 
-                                                Text("\(movie.voteAverage)")
+                                                Text(String(format: "%.1f", movie.voteAverage))
                                                     .font(.system(size: 14))
                                                     .foregroundColor(theme.orangeFF8700)
                                                 
@@ -89,9 +95,7 @@ struct CategoriesItem: View {
                                 .frame(width: 135, height: 231)
                                 .background(theme.blue252836)
                                 .cornerRadius(16)
-                                
-                            }
-                                       , placeholder: {
+                            }, placeholder: {
                                 VStack {
                                     ProgressView()
                                         .progressViewStyle(CircularProgressViewStyle(tint: theme.whiteShades))
