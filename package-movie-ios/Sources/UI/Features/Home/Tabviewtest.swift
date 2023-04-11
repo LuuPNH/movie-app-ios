@@ -1,39 +1,23 @@
 //
-//  HomeView.swift
+//  SwiftUIView.swift
 //  
 //
-//  Created by Luu Phan on 28/02/2023.
+//  Created by Luu Phan on 11/04/2023.
 //
 
 import SwiftUI
 import Resources
-import DependencyKit
 
-public struct HomeView: View {
+struct TabviewTest: View {
     
     @Environment(\.theme) var theme: AppTheme
+    @State var homeTab: HomeTab = .home
     
-    @ObservedObject var viewModel:HomeViewModel
-    
-    @StateObject var carouselViewModel = Container.carouselViewModel()
-    
-    @StateObject var categoriesViewModel = Container.categoriesViewModel()
-    
-    public init(viewModel:HomeViewModel) {
-        self.viewModel = viewModel
-    }
-    
-    public var body: some View {
-        TabView(selection: $viewModel.homeTab) {
+    var body: some View {
+        TabView(selection: $homeTab) {
             VStack(alignment: .leading) {
-                HomeHeaderView()
-                    .padding(.horizontal, 16)
-                SearchHomeView()
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 16)
-                CarouselView(viewModel: carouselViewModel)
-                CategoriesView(viewModel: categoriesViewModel)
-                Spacer()
+                Text("Home")
+                    .foregroundColor(theme.whiteShades)
             }
             .tag(HomeTab.home)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -69,23 +53,9 @@ public struct HomeView: View {
                 .frame(maxWidth: .infinity,alignment: .bottom)
                 .background(theme.primary)
             }
-            .animation(.easeInOut, value: viewModel.homeTab)
+            .animation(.easeInOut, value: homeTab)
             
         }
-        //        TabView {
-        //            VStack(alignment: .leading) {
-        //                HomeHeaderView()
-        //                    .padding(.horizontal, 16)
-        //                SearchHomeView()
-        //                    .padding(.horizontal, 16)
-        //                    .padding(.vertical, 16)
-        //                CarouselView(viewModel: carouselViewModel)
-        //                CategoriesView(viewModel: categoriesViewModel)
-        //                Spacer()
-        //            }
-        //            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        //            .background(theme.primary)
-        //        }
     }
     
     @ViewBuilder
@@ -93,7 +63,7 @@ public struct HomeView: View {
         let info = infoTab(tab)
         HStack {
             Image(systemName: info.image)
-            if tab == viewModel.homeTab {
+            if tab == homeTab {
                 Text(info.text)
                     .font(.system(size: 12))
                     .lineLimit(1)
@@ -105,7 +75,7 @@ public struct HomeView: View {
         .background(theme.blue252836)
         .cornerRadius(16)
         .onTapGesture {
-            viewModel.goTab(tab: tab)
+            homeTab = tab
         }
     }
     
@@ -122,8 +92,9 @@ public struct HomeView: View {
         }
     }
 }
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeView(viewModel: HomeViewModel())
-//    }
-//}
+
+struct TabviewTest_Previews: PreviewProvider {
+    static var previews: some View {
+        TabviewTest()
+    }
+}

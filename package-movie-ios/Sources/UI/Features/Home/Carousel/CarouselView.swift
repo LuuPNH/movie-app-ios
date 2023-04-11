@@ -8,6 +8,7 @@
 import SwiftUI
 import Resources
 import Combine
+import NukeUI
 
 struct CarouselView: View {
     
@@ -29,35 +30,39 @@ struct CarouselView: View {
                           autoScroll: .active(3)
                           
                 ) { item in
-                    ImageCacheView(url: item.backdropPath, content: { image in
-                        image.resizable()
-                            .frame(width: 295, height: 154)
-                            .cornerRadius(16)
-                            .overlay(alignment: .bottomLeading) {
-                                VStack(alignment: .leading) {
-                                    Text(item.title)
-                                        .font(.system(size: 17))
-                                        .fontWeight(.bold)
-                                        .foregroundColor(theme.whiteShades)
-                                    Text(item.releaseDate)
-                                        .font(.system(size: 12))
-                                        .fontWeight(.bold)
-                                        .foregroundColor(theme.grey92929D)
-                                        .multilineTextAlignment(.leading)
-                                        .padding(.leading, 8)
+                    LazyImage(source: ImageRequest(url: URL(string: item.backdropPath))) { state in
+                        if let image = state.image {
+                            image
+                                .frame(width: 295, height: 154)
+                                .cornerRadius(16)
+                                .overlay(alignment: .bottomLeading) {
+                                    VStack(alignment: .leading) {
+                                        Text(item.title)
+                                            .font(.system(size: 17))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(theme.whiteShades)
+                                        Text(item.releaseDate)
+                                            .font(.system(size: 12))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(theme.grey92929D)
+                                            .multilineTextAlignment(.leading)
+                                            .padding(.leading, 8)
+                                    }
+                                    .padding(.leading, 4)
+                                    
                                 }
-                                .padding(.leading, 4)
-                                
+                        } else if state.error != nil {
+                            Image(systemName: "x.circle")
+                        } else {
+                            VStack {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: theme.whiteShades))
                             }
-                    }, placeholder: {
-                        VStack {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: theme.whiteShades))
+                            .frame(width: 295, height: 154)
+                            .background(theme.blue252836)
+                            .cornerRadius(16)
                         }
-                        .frame(width: 295, height: 154)
-                        .background(theme.blue252836)
-                        .cornerRadius(16)
-                    })
+                    }
                 }
             }
         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 public extension View {
-    public func placeholder<Content: View>(
+    func placeholder<Content: View>(
         when shouldShow: Bool,
         alignment: Alignment = .leading,
         @ViewBuilder placeholder: () -> Content) -> some View {

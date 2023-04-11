@@ -16,6 +16,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/Moya/Moya", from: "15.0.3"),
+        .package(url: "https://github.com/kean/NukeUI.git", from: "0.8.3"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -41,7 +42,12 @@ let package = Package(
         .target(name: "Resources",
                 dependencies: []),
         .target(name: "UI",
-                dependencies: ["Domain", "DependencyKit","Common", "Resources"]),
+                dependencies: ["Domain",
+                               "DependencyKit",
+                               "Common",
+                               "Resources",
+                               "NukeUI"
+                              ]),
         .target(name: "Common",
                 dependencies: ["Domain", "DependencyKit"]),
         .testTarget(

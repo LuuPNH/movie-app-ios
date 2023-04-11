@@ -37,6 +37,4 @@ struct DarkTheme: Theme {
     var name: String {
         "dark"
     }
-    
-    
 }

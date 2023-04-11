@@ -8,7 +8,7 @@
 import Foundation
 import Common
 
-public enum HomeTab {
+public enum HomeTab: CaseIterable {
     case home
     case search
     case download

@@ -8,6 +8,7 @@
 import SwiftUI
 import Resources
 import Domain
+import NukeUI
 
 struct CategoriesItem: View {
     
@@ -51,59 +52,64 @@ struct CategoriesItem: View {
                 ScrollView (.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(value.movies) { movie in
-                            ImageCacheView(url: movie.backdropPath, content: { image in
-                                VStack(alignment: .leading) {
-                                    image.resizable()
-                                        .frame(width: 135, height: 178)
-                                        .padding(.bottom, 4)
-                                        .overlay(alignment: .topTrailing) {
-                                            HStack(alignment: .center) {
-                                                Image(systemName: "star.fill")
-                                                    .foregroundColor(theme.orangeFF8700)
-                                                    .padding(.all, 4)
-                                                    .frame(width: 12, height: 12)
-                                                
-                                                Text(String(format: "%.1f", movie.voteAverage))
-                                                    .font(.system(size: 14))
-                                                    .foregroundColor(theme.orangeFF8700)
+                            
+                            LazyImage(source: ImageRequest(url: URL(string: movie.backdropPath))) { state in
+                                if let image = state.image {
+                                    VStack(alignment: .leading) {
+                                        image
+                                            .frame(width: 135, height: 178)
+                                            .padding(.bottom, 4)
+                                            .overlay(alignment: .topTrailing) {
+                                                HStack(alignment: .center) {
+                                                    Image(systemName: "star.fill")
+                                                        .foregroundColor(theme.orangeFF8700)
+                                                        .padding(.all, 4)
+                                                        .frame(width: 12, height: 12)
+                                                    
+                                                    Text(String(format: "%.1f", movie.voteAverage))
+                                                        .font(.system(size: 14))
+                                                        .foregroundColor(theme.orangeFF8700)
+                                                    
+                                                }
+                                                .padding(.horizontal, 8)
+                                                .padding(.vertical, 4)
+                                                .background(theme.grey252836.opacity(0.32))
+                                                .cornerRadius(8)
+                                                .padding(.all, 8)
                                                 
                                             }
+                                        Text(movie.title)
+                                            .font(.system(size: 14))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(theme.grey92929D)
                                             .padding(.horizontal, 8)
-                                            .padding(.vertical, 4)
-                                            .background(theme.grey252836.opacity(0.32))
-                                            .cornerRadius(8)
-                                            .padding(.all, 8)
-                                            
-                                        }
-                                    Text(movie.title)
-                                        .font(.system(size: 14))
-                                        .fontWeight(.bold)
-                                        .foregroundColor(theme.grey92929D)
-                                        .padding(.horizontal, 8)
-                                        .lineLimit(1)
-                                        .multilineTextAlignment(.leading)
-                                    
-                                    Text(movie.overview)
-                                        .font(.system(size: 10))
-                                        .foregroundColor(theme.grey92929D)
-                                        .padding(.horizontal, 8)
-                                        .lineLimit(1)
-                                        .multilineTextAlignment(.leading)
-                                    Spacer()
-                                    
+                                            .lineLimit(1)
+                                            .multilineTextAlignment(.leading)
+                                        
+                                        Text(movie.overview)
+                                            .font(.system(size: 10))
+                                            .foregroundColor(theme.grey92929D)
+                                            .padding(.horizontal, 8)
+                                            .lineLimit(1)
+                                            .multilineTextAlignment(.leading)
+                                        Spacer()
+                                        
+                                    }
+                                    .frame(width: 135, height: 231)
+                                    .background(theme.blue252836)
+                                    .cornerRadius(16)
+                                } else if state.error != nil {
+                                    Image(systemName: "x.circle")
+                                } else {
+                                    VStack {
+                                        ProgressView()
+                                            .progressViewStyle(CircularProgressViewStyle(tint: theme.whiteShades))
+                                    }
+                                    .frame(width: 135, height: 231)
+                                    .background(theme.blue252836)
+                                    .cornerRadius(16)
                                 }
-                                .frame(width: 135, height: 231)
-                                .background(theme.blue252836)
-                                .cornerRadius(16)
-                            }, placeholder: {
-                                VStack {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: theme.whiteShades))
-                                }
-                                .frame(width: 135, height: 231)
-                                .background(theme.blue252836)
-                                .cornerRadius(16)
-                            })
+                            }
                         }
                     }
                 }
@@ -115,9 +121,3 @@ struct CategoriesItem: View {
         .frame(height: 235)
     }
 }
-
-//struct CategoriesItem_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CategoriesItem()
-//    }
-//}
