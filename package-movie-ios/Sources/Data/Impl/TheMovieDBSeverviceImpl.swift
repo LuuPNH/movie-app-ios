@@ -15,16 +15,28 @@ import Moya
 public class TheMovieDBSeverviceImpl: TheMovieDBService {
     @Injected(Container.network) var network
     
-    public func getListMovie(page: Int, type: CategoriesMovie) async throws -> [Domain.Movie] {
+    
+    public func getTrendingMovies() async throws -> [Domain.Movie] {
         
-        let data: ResultDataMapper = try await network.request(targetType: TheMovieDBApiTarget.getListMovie(page: page, type: type))
+        let data: ResultDataMapper = try await network.request(targetType: TheMovieDBApiTarget.getDataCustom(path: "trending/movie/day"))
         
         return data.toDomain().data
+    }
+    
+    public func getListMovie(page: Int, type: CategoriesMovie) async throws -> [Movie] {
+        do {
+            let data: ResultDataMapper = try await network.request(targetType: TheMovieDBApiTarget.getListMovie(page: page, type: type))
+            let movies: [Movie] = data.toDomain().data
+            return movies
+        } catch let error {
+            throw error
+        }
     }
 }
 
 enum TheMovieDBApiTarget {
     case getListMovie(page: Int, type: CategoriesMovie)
+    case getDataCustom(page: Int = 1, path: String)
 }
 
 extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
@@ -49,6 +61,8 @@ extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
             case .popular:
                 return "movie/popular"
             }
+        case let .getDataCustom(_, path):
+            return path
         }
     }
     
@@ -67,8 +81,16 @@ extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
                         "page": page
                     ],
                 encoding: URLEncoding.default)
+        case let .getDataCustom(page, _):
+            return .requestParameters(
+                parameters:
+                    [
+                        "api_key" : env.apiKey,
+                        "language": "en-US",
+                        "page": page
+                    ],
+                encoding: URLEncoding.default)
         }
-        
     }
     
     var headers: [String : String]? {

@@ -10,32 +10,40 @@ import DependencyKit
 import Domain
 import Combine
 import SwiftUI
+import Common
+
+public enum CarouselStep: Step {
+    case carousel
+    case detail
+}
 
 public enum CarouselAction {
     case getlist
 }
 
-public class CarouselViewModel: ObservableObject {
+public class CarouselViewModel: ViewModel {
     
-    @Injected(Container.theMovieDBService) var theMovieDBService
+    @Published var step: CarouselStep = .carousel
+    
+    @Injected(Container.carouselUseCase) var carouselUseCase
     
     private var cancellables: [AnyCancellable] = []
     
     @Published var listImageMovie: [Movie] = []
     
-    public init() {}
+    public init() {
+        
+    }
     
     public func dispatch(action: CarouselAction) {
         switch action {
         case .getlist:
             getlistNowplaying()
         }
-        
     }
-
     func getlistNowplaying() {
-        Task { @MainActor in
-            let data = try await theMovieDBService.getListMovie(page: 1, type: .nowPlaying)
+        asyncTask { @MainActor [self] in
+            let data = try await carouselUseCase()
             listImageMovie = data
         }
     }

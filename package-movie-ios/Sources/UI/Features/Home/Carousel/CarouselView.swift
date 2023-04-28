@@ -9,23 +9,26 @@ import SwiftUI
 import Resources
 import Combine
 import NukeUI
+import Common
+import Domain
 
 struct CarouselView: View {
     
-    @ObservedObject var viewModel:CarouselViewModel
+    @SwiftUI.Environment(\.theme) var theme: AppTheme
     
-    @Environment(\.theme) var theme: AppTheme
+    @EnvironmentObject var router: Router<SplashStep>
     
-    init(viewModel: CarouselViewModel) {
-        self.viewModel = viewModel
-        
-    }
+    @EnvironmentObject var appError: AppError<Error>
+    
+    @StateObject var viewModel: CarouselViewModel = CarouselViewModel()
+    
+    init() {}
     
     var body: some View {
         VStack {
             if !viewModel.listImageMovie.isEmpty {
                 ACarousel(viewModel.listImageMovie,
-                          headspace: 50,
+                          headspace: UIScreen.screenWidth / 9,
                           sidesScaling: 0.9,
                           autoScroll: .active(3)
                           
@@ -71,12 +74,8 @@ struct CarouselView: View {
             print("++++++++Init get list movie++++++++++")
             viewModel.dispatch(action: .getlist)
         }
+        .onReceive(viewModel.errorHandler.receiveError()) { error in
+            appError.pushError(to: error)
+        }
     }
 }
-
-//struct SwiftUIView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CarouselView(viewModel: CarouselViewModel())
-//    }
-//}
-

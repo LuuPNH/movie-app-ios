@@ -46,6 +46,7 @@ struct SearchHomeView: View {
         .frame(height: 60)
         .background(theme.blue252836)
         .cornerRadius(30)
+        .padding(.all, 16)
         
     }
 }

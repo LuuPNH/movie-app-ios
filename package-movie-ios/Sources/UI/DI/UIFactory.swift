@@ -11,28 +11,4 @@ import Domain
 import Resources
 
 public extension Container {
-    
-    static let authenticationViewModel = Factory {
-        AuthenticationViewModel()
-    }
-    
-    static let splashViewModel = Factory {
-        SplashViewModel()
-    }
-    
-    static let showOnboardingViewModel = Factory {
-        OnboardingViewModel()
-    }
-    
-    static let homeViewModel = Factory {
-        HomeViewModel()
-    }
-    
-    static let carouselViewModel = Factory {
-        CarouselViewModel()
-    }
-    
-    static let categoriesViewModel = Factory {
-        CategoriesViewModel()
-    }
 }

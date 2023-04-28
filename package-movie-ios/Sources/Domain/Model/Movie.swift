@@ -19,8 +19,9 @@ public struct Movie: Hashable, Identifiable {
     public let video: Bool
     public let voteAverage: Double
     public let voteCount: Int
+    public let mediaType: String
     
-    public init(adult: Bool, backdropPath: String, id: Int, genreIDS: [Int], originalLanguage: String, originalTitle: String, overview: String, popularity: Double, posterPath: String, releaseDate: String, title: String, video: Bool, voteAverage: Double,voteCount: Int) {
+    public init(adult: Bool, backdropPath: String, id: Int, genreIDS: [Int], originalLanguage: String, originalTitle: String, overview: String, popularity: Double, posterPath: String, releaseDate: String, title: String, video: Bool, voteAverage: Double, voteCount: Int, mediaType: String) {
         self.adult = adult
         self.backdropPath = backdropPath
         self.genreIDS = genreIDS
@@ -35,5 +36,6 @@ public struct Movie: Hashable, Identifiable {
         self.video = video
         self.voteAverage = (Double(voteAverage) * 50) / 100
         self.voteCount = voteCount
+        self.mediaType = mediaType
     }
 }

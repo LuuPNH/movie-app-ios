@@ -30,16 +30,11 @@ struct ContentContainerView: View {
     @State var themeEnvironmentValue = AppTheme.light
     @State var themeManager = ThemeManager.shared
     
-    
-    //Container
-    @StateObject var onboardingViewModel = Container.showOnboardingViewModel()
-    @StateObject var homeViewModel = Container.homeViewModel()
-    
-    
     //Router
     @StateObject var router = ContentStep.router()
     @StateObject var splashRouter: Router<SplashStep> = SplashStep.router()
     @StateObject var onBoardingRouter: Router<OnboardingStep> = OnboardingStep.router()
+    @StateObject var homeRouter: Router<HomeStep> = HomeStep.router()
     
     @State var viewType: ContentViewType = .splash
     
@@ -83,9 +78,8 @@ struct ContentContainerView: View {
                     }
                 }
         case .onboarding:
-            OnboardingView(viewModel: onboardingViewModel)
+            OnboardingView()
                 .environmentObject(onBoardingRouter)
-                
                 .onReceive(onBoardingRouter.stream) { step in
                     
                     switch step {
@@ -94,7 +88,8 @@ struct ContentContainerView: View {
                     }
                 }
         case .home:
-            HomeView(viewModel: homeViewModel)
+            HomeView()
+                .environmentObject(homeRouter)
                 .environment(\.theme, themeEnvironmentValue)
         }
     }

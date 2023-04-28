@@ -8,16 +8,22 @@
 import Foundation
 import DependencyKit
 import Domain
+import Common
 
+public enum CategoriesStep: Step {
+    case categories
+    case detail
+}
 
 public enum CategoriesAction {
     case getList
 }
 
-public class CategoriesViewModel: ObservableObject {
+public class CategoriesViewModel: ViewModel {
     
-    @Injected(Container.theMovieDBService) var theMovieDBService
+    @Published var step: CategoriesStep = .categories
     
+    @Injected(Container.categoriesUseCase) var categoriesUseCase
     
     @Published var tuples: [ItemCategoriesMovie]
     
@@ -42,21 +48,17 @@ public class CategoriesViewModel: ObservableObject {
         updateMovies(tab)
     }
     
-    func getListMovie(_ tab: CategoriesMovie) async -> [Movie] {
-        do {
-            let data = try await theMovieDBService.getListMovie(page: 1, type: tab)
-            return data
-        } catch {
-            return []
-        }
+    func getListMovie(_ tab: CategoriesMovie) async throws -> [Movie] {
+        let data = try await categoriesUseCase.callAsFunction((page: 1, type: tab))
+        return data
     }
     
     func updateMovies(_ tab: CategoriesMovie) {
-        Task { @MainActor in
+        asyncTask { @MainActor [self] in
             let findItem = tuples.firstIndex { $0.type == tab }
             if(tuples[findItem!].movies.isEmpty) {
-                let newList = await getListMovie(tab)
-                tuples[findItem!] = tuples[findItem!].copyWith(movies: newList, isLoading: false)
+                let movies = try await getListMovie(tab);
+                tuples[findItem!] = tuples[findItem!].copyWith(movies: movies, isLoading: false)
             }
             selectItem = tuples[findItem!]
         }

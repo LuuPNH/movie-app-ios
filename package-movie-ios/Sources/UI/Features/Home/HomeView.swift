@@ -8,34 +8,72 @@
 import SwiftUI
 import Resources
 import DependencyKit
+import Common
+import Domain
+import PopupView
 
 public struct HomeView: View {
     
-    @Environment(\.theme) var theme: AppTheme
+    @SwiftUI.Environment(\.theme) var theme: AppTheme
     
-    @ObservedObject var viewModel:HomeViewModel
+    @EnvironmentObject var router: Router<HomeStep>
     
-    @StateObject var carouselViewModel = Container.carouselViewModel()
+    @StateObject var error: AppError<Error> = AppError()
     
-    @StateObject var categoriesViewModel = Container.categoriesViewModel()
+    @StateObject var headerHomeRouter: Router<HeaderHomeStep> = HeaderHomeStep.router()
     
-    public init(viewModel:HomeViewModel) {
-        self.viewModel = viewModel
-    }
+    @StateObject var carouselRouter: Router<CarouselStep> = CarouselStep.router()
+    
+    @StateObject var categoriesRouter: Router<CategoriesStep> = CategoriesStep.router()
+    
+    @StateObject var todayRouter: Router<TodayStep> = TodayStep.router()
+    
+    @ObservedObject var viewModel: HomeViewModel = HomeViewModel()
+    
+    @State var showPopupError: Bool = false
+    
+    public init() {}
     
     public var body: some View {
         TabView(selection: $viewModel.homeTab) {
-            VStack(alignment: .leading) {
-                HomeHeaderView()
-                    .padding(.horizontal, 16)
-                SearchHomeView()
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 16)
-                CarouselView(viewModel: carouselViewModel)
-                CategoriesView(viewModel: categoriesViewModel)
-                Spacer()
+            ScrollView {
+                VStack(alignment: .leading) {
+                    HomeHeaderView()
+                        .environmentObject(headerHomeRouter)
+                        .onReceive(headerHomeRouter.stream) { step in
+                            
+                        }
+                    SearchHomeView()
+                    CarouselView()
+                        .environmentObject(carouselRouter)
+                        .environmentObject(error)
+                        .onReceive(carouselRouter.stream) { step in
+                            print("++++ CarouselRouter step: \(step)")
+                        }
+                    
+                    CategoriesView()
+                        .environmentObject(categoriesRouter)
+                        .environmentObject(error)
+                        .onReceive(categoriesRouter.stream) { step in
+                            print("++++ CategoriesView step: \(step)")
+                        }
+                    TodayView()
+                        .environmentObject(todayRouter)
+                        .onReceive(todayRouter.stream) { step in
+                            print("++++ TodayView step: \(step)")
+                        }
+                    
+                }
+                .tag(HomeTab.home)
+                .onReceive(error.stream) { error in
+                    if showPopupError { return }
+                    showPopupError = true
+                }
+                .popup(isPresented: $showPopupError) {
+                    DialogView(text: error.errors[0].localizedDescription)
+                }
+                
             }
-            .tag(HomeTab.home)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(theme.primary)
             
@@ -72,20 +110,6 @@ public struct HomeView: View {
             .animation(.easeInOut, value: viewModel.homeTab)
             
         }
-        //        TabView {
-        //            VStack(alignment: .leading) {
-        //                HomeHeaderView()
-        //                    .padding(.horizontal, 16)
-        //                SearchHomeView()
-        //                    .padding(.horizontal, 16)
-        //                    .padding(.vertical, 16)
-        //                CarouselView(viewModel: carouselViewModel)
-        //                CategoriesView(viewModel: categoriesViewModel)
-        //                Spacer()
-        //            }
-        //            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        //            .background(theme.primary)
-        //        }
     }
     
     @ViewBuilder
@@ -93,16 +117,17 @@ public struct HomeView: View {
         let info = infoTab(tab)
         HStack {
             Image(systemName: info.image)
+                .frame(width: 24, height: 24)
             if tab == viewModel.homeTab {
                 Text(info.text)
                     .font(.system(size: 12))
                     .lineLimit(1)
             }
         }
-        .foregroundColor(theme.blue12CDD9)
+        .foregroundColor(tab == viewModel.homeTab ? theme.blue12CDD9 : theme.grey92929D)
         .padding(.horizontal, 10)
         .frame(height: 40)
-        .background(theme.blue252836)
+        .background(tab == viewModel.homeTab ? theme.blue252836 : theme.primary)
         .cornerRadius(16)
         .onTapGesture {
             viewModel.goTab(tab: tab)
@@ -122,8 +147,3 @@ public struct HomeView: View {
         }
     }
 }
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeView(viewModel: HomeViewModel())
-//    }
-//}

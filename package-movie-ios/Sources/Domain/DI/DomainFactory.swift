@@ -25,4 +25,8 @@ extension Container {
     public static let carouselUseCase = Factory {
         CarouselUseCase()
     }
+    
+    public static let categoriesUseCase = Factory {
+        CategoriesUseCase()
+    }
 }

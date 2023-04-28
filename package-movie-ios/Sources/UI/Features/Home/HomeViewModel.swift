@@ -26,7 +26,11 @@ public enum HomeAction {
 
 public class HomeViewModel: ObservableObject {
     
+    @Published var homeStep: HomeStep = .home
+    
     @Published var homeTab: HomeTab
+    
+    @Published var error: String?
     
     public init() {
         homeTab = .home

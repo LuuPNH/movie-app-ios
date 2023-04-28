@@ -14,7 +14,7 @@ import DependencyKit
 struct movie_app_iosApp: App {
     
     lazy var initializers: [Initializable] = [
-        DIInitializer() // must be the first item
+        DIInitializer() 
     ]
     
     init() {

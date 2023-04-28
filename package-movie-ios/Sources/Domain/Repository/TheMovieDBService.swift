@@ -10,6 +10,8 @@ import Foundation
 public protocol TheMovieDBService {
     
     func getListMovie(page: Int, type: CategoriesMovie) async throws -> [Movie]
+    
+    func getTrendingMovies() async throws -> [Movie]
 
 }
 

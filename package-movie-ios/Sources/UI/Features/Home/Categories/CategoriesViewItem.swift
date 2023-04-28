@@ -118,6 +118,6 @@ struct CategoriesItem: View {
         }
         .padding(.horizontal, 8)
         .background(theme.primary)
-        .frame(height: 235)
+        .frame(maxHeight: 235)
     }
 }

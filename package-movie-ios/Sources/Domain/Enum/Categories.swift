@@ -13,5 +13,4 @@ public enum CategoriesMovie: String, CaseIterable, Equatable {
     case upComing
     case upLatest
     case popular
-    
 }

@@ -7,14 +7,19 @@
 
 import SwiftUI
 import Resources
+import Common
 
 struct HomeHeaderView: View {
     
     @Environment(\.theme) var theme: AppTheme
     
+    @EnvironmentObject var router: Router<HeaderHomeStep>
+    
+    @StateObject var viewModel: HeaderHomeViewModel = HeaderHomeViewModel()
+    
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Sam_Worthington_4%2C_2013.jpg/640px-Sam_Worthington_4%2C_2013.jpg")){
+            AsyncImage(url: URL(string: "https://lh3.googleusercontent.com/a/AGNmyxbOXURs9BTEMgLz5DY8CJONvRggbX1D9YZ82FDP=s288")){
                 image in
                 image.resizable()
             } placeholder: {
@@ -51,6 +56,7 @@ struct HomeHeaderView: View {
         .frame(height: 60)
         .background(theme.primary)
         .cornerRadius(15)
+        .padding(.horizontal, 16)
     }
 }
 

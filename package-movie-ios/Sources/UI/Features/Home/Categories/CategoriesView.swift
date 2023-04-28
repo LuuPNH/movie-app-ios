@@ -9,23 +9,24 @@ import SwiftUI
 import Domain
 import Resources
 import Combine
+import Common
 
 public struct CategoriesView: View {
     
-    @ObservedObject var viewModel:CategoriesViewModel
+    @EnvironmentObject var router: Router<CarouselStep>
+    
+    @EnvironmentObject var appError: AppError<Error>
+    
+    @StateObject var viewModel:CategoriesViewModel = CategoriesViewModel()
     
     @SwiftUI.Environment(\.theme) var theme: AppTheme
     
-    public init(viewModel: CategoriesViewModel) {
-        self.viewModel = viewModel
-    }
-    
-    
+    init() {}
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             Text("Categories")
-                .font(.system(size: 16))
+                .font(.system(size: 20))
                 .fontWeight(.bold)
                 .foregroundColor(theme.grey92929D)
                 .lineLimit(1)
@@ -55,6 +56,9 @@ public struct CategoriesView: View {
         }
         .padding(.horizontal, 8)
         .background(theme.primary)
+        .onReceive(viewModel.errorHandler.receiveError()) { error in
+            appError.pushError(to: error)
+        }
     }
     
     func getNameCategories(_ cate: CategoriesMovie) -> String {
@@ -72,10 +76,3 @@ public struct CategoriesView: View {
         }
     }
 }
-
-//struct CategoriesView_Previews: PreviewProvider {
-//    static var previews: some View {
-//                CategoriesView(viewModel: CategoriesViewModel())
-//
-//    }
-//}

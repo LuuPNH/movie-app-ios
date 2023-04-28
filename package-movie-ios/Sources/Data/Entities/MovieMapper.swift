@@ -21,6 +21,7 @@ public struct MovieMapper: Codable {
     public let video: Bool
     public let voteAverage: Double
     public let voteCount: Int
+    public let mediaType: String?
     
     
     public func toDomain() -> Movie {
@@ -38,7 +39,8 @@ public struct MovieMapper: Codable {
             title: title,
             video: video,
             voteAverage: voteAverage,
-            voteCount: voteCount
+            voteCount: voteCount,
+            mediaType: mediaType ?? "--"
         )
     }
 
@@ -55,5 +57,6 @@ public struct MovieMapper: Codable {
         case title, video
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
+        case mediaType = "media_type"
     }
 }

@@ -6,8 +6,13 @@
 //
 
 import Foundation
+import Common
 
-public class HeaderHomeViewModel: ObservableObject {
+enum HeaderHomeStep: Step {
+    
+}
+
+public class HeaderHomeViewModel: ViewModel {
     public init() {
     }
 }

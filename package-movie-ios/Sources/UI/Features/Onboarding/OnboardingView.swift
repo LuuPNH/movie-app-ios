@@ -11,15 +11,13 @@ import Common
 
 public struct OnboardingView: View {
     
-    @ObservedObject var viewModel: OnboardingViewModel
+    @ObservedObject var viewModel: OnboardingViewModel = OnboardingViewModel()
     
     @EnvironmentObject var router: Router<OnboardingStep>
     
     @State var indexPageView:Int = 0
     
-    public init(viewModel: OnboardingViewModel) {
-        self.viewModel = viewModel
-    }
+    public init() {}
     
     public var body: some View {
         
@@ -108,11 +106,5 @@ public struct OnboardingView: View {
                     .frame(height: 72)
             }
         }
-    }
-}
-
-struct OnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingView(viewModel: OnboardingViewModel())
     }
 }
