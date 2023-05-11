@@ -28,7 +28,7 @@ public class SplashViewModel: ViewModel {
     public func dispatch(action: Action) {
         switch action {
         case .goHome:
-            nextStep = .home
+            nextStep = .main
         case .checkShowOnboarding:
             checkShowOnboarding()
         }
@@ -39,7 +39,7 @@ public class SplashViewModel: ViewModel {
             let data = try await showOnboardingUseCase.callAsFunction()
             switch data {
             case .isShowedOnboarding:
-                nextStep = .home
+                nextStep = .main
             case .unShowed:
                 nextStep = .onboard
             }

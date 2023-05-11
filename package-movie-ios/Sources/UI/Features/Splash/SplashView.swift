@@ -11,7 +11,7 @@ import Resources
 import Domain
 
 public enum SplashStep: Step {
-    case home
+    case main
     case onboard
 }
 

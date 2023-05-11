@@ -51,11 +51,29 @@ public struct CategoriesView: View {
             }
             .padding(.bottom, 16)
             
-            CategoriesItem(value: viewModel.selectItem)
+            CategoriesItem(value: viewModel.selectItem) {
+                viewModel.dispatch(action: .showAll)
+            }
             
         }
         .padding(.horizontal, 8)
         .background(theme.primary)
+        .sheet(isPresented: $viewModel.isShowAll) {
+            ScrollView {
+                VStack(alignment: .center) {
+                    Divider()
+                        .frame(width: UIScreen.screenWidth / 3, height: 4)
+                        .overlay(theme.value.whiteShades)
+                        .cornerRadius(4)
+                        .padding(.vertical, 16)
+                    
+                    ForEach(viewModel.selectItem.movies) { movie in
+                        MovieShowDisplay(movie: movie)
+                    }
+                }
+            }
+            .background(theme.primary)
+        }
         .onReceive(viewModel.errorHandler.receiveError()) { error in
             appError.pushError(to: error)
         }

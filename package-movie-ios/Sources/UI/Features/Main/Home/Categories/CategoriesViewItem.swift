@@ -16,8 +16,11 @@ struct CategoriesItem: View {
     
     let value: ItemCategoriesMovie
     
-    public init(value: ItemCategoriesMovie) {
+    var showAll: () -> Void
+    
+    public init(value: ItemCategoriesMovie, showAll: @escaping () -> Void) {
         self.value = value
+        self.showAll = showAll
     }
     
     var body: some View {
@@ -29,12 +32,17 @@ struct CategoriesItem: View {
                     .foregroundColor(theme.grey92929D)
                     .lineLimit(1)
                 Spacer()
+                
                 Text("See All")
                     .font(.system(size: 16))
                     .fontWeight(.bold)
                     .padding(.trailing, 16)
-                    .foregroundColor(theme.blue12CDD9)
+                    .foregroundColor(!value.movies.isEmpty ? theme.blue12CDD9 : theme.grey92929D)
                     .lineLimit(1)
+                    .onTapGesture {
+                        if value.movies.isEmpty { return }
+                        showAll()
+                    }
             }
             
             if value.isLoading {

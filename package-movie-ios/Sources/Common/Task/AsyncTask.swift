@@ -21,21 +21,24 @@ public final class AsyncTask: ObservableObject, ErrorHandling {
         dLog("+++ \(self) deinit")
     }
     
-    public func callAsFunction(task: @escaping () async throws -> Void) {
-        Task { @MainActor [weak self] in
-            await self?.run(task: task)
+    public func callAsFunction(task: @escaping () async throws -> Void, onFinished: @escaping () -> Void = {}) {
+            Task { @MainActor [weak self] in
+                await self?.run(task: task, onFinished: onFinished)
+            }
+            .store(in: &cancellables)
         }
-        .store(in: &cancellables)
-    }
-    @MainActor
-    //unsing for .task in view
-    public func run(task: @escaping () async throws -> Void) async {
-        do {
-            try await task()
-        } catch {
-            errorSubject.send(error)
+
+        @MainActor
+        // using for .task in view
+        public func run(task: @escaping () async throws -> Void, onFinished: @escaping () -> Void = {}) async {
+            do {
+                try await task()
+                onFinished()
+            } catch {
+                errorSubject.send(error)
+                onFinished()
+            }
         }
-    }
     
     public func cancel() {
         cancellables.removeAll()

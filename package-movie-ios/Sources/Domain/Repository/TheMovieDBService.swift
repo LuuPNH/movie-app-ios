@@ -12,6 +12,8 @@ public protocol TheMovieDBService {
     func getListMovie(page: Int, type: CategoriesMovie) async throws -> [Movie]
     
     func getTrendingMovies() async throws -> [Movie]
-
+    
+    func getDetailMovie(id: Int) async throws -> Movie
+        
 }
 

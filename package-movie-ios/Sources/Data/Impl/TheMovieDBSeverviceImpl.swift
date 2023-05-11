@@ -13,14 +13,23 @@ import Moya
 
 
 public class TheMovieDBSeverviceImpl: TheMovieDBService {
-    @Injected(Container.network) var network
     
+    public func getDetailMovie(id: Int) async throws -> Domain.Movie {
+        do {
+            let data: MovieMapper = try await network.request(targetType: TheMovieDBApiTarget.getDataCustom(path: "movie/\(id)"))
+            return data.toDomain()
+        } catch let error {
+            throw error
+        }
+    }
     
     public func getTrendingMovies() async throws -> [Domain.Movie] {
-        
-        let data: ResultDataMapper = try await network.request(targetType: TheMovieDBApiTarget.getDataCustom(path: "trending/movie/day"))
-        
-        return data.toDomain().data
+        do {
+            let data: ResultDataMapper = try await network.request(targetType: TheMovieDBApiTarget.getListDataCustom(path: "trending/movie/day"))
+            return data.toDomain().data
+        } catch let error {
+            throw error
+        }
     }
     
     public func getListMovie(page: Int, type: CategoriesMovie) async throws -> [Movie] {
@@ -32,11 +41,14 @@ public class TheMovieDBSeverviceImpl: TheMovieDBService {
             throw error
         }
     }
+    
+    @Injected(Container.network) var network
 }
 
 enum TheMovieDBApiTarget {
     case getListMovie(page: Int, type: CategoriesMovie)
-    case getDataCustom(page: Int = 1, path: String)
+    case getListDataCustom(page: Int = 1, path: String)
+    case getDataCustom(path: String)
 }
 
 extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
@@ -61,7 +73,9 @@ extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
             case .popular:
                 return "movie/popular"
             }
-        case let .getDataCustom(_, path):
+        case let .getListDataCustom(_, path):
+            return path
+        case .getDataCustom(path: let path):
             return path
         }
     }
@@ -81,13 +95,20 @@ extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
                         "page": page
                     ],
                 encoding: URLEncoding.default)
-        case let .getDataCustom(page, _):
+        case let .getListDataCustom(page, _):
             return .requestParameters(
                 parameters:
                     [
                         "api_key" : env.apiKey,
                         "language": "en-US",
                         "page": page
+                    ],
+                encoding: URLEncoding.default)
+        case .getDataCustom:
+            return .requestParameters(
+                parameters:
+                    [
+                        "api_key" : env.apiKey,
                     ],
                 encoding: URLEncoding.default)
         }

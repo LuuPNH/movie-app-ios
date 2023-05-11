@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 public final class AppError<AppError: Error>: ObservableObject {
     
@@ -18,9 +19,7 @@ public final class AppError<AppError: Error>: ObservableObject {
         errorSubject.share().eraseToAnyPublisher()
     }
     
-    deinit {
-        dLog("+++ \(self) +++")
-    }
+    deinit { print("++ AppError deinit ++") }
     
     public init() {}
     

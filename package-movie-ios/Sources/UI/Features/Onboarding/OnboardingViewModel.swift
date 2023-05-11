@@ -11,7 +11,7 @@ import DependencyKit
 
 
 public enum OnboardingStep: Step {
-    case home
+    case main
 }
 
 public class OnboardingViewModel: ObservableObject {
@@ -39,7 +39,7 @@ public class OnboardingViewModel: ObservableObject {
             let data = try await getStartedAppUseCase.callAsFunction()
             switch data {
             case .isShowedOnboarding:
-                nextStep = .home
+                nextStep = .main
             case .unShowed:
                 break
             }

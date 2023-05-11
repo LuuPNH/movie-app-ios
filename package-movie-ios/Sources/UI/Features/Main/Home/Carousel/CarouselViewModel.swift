@@ -14,11 +14,12 @@ import Common
 
 public enum CarouselStep: Step {
     case carousel
-    case detail
+    case detail(idMovie: Int)
 }
 
 public enum CarouselAction {
     case getlist
+    case goDetail(idMovie: Int)
 }
 
 public class CarouselViewModel: ViewModel {
@@ -32,13 +33,14 @@ public class CarouselViewModel: ViewModel {
     @Published var listImageMovie: [Movie] = []
     
     public init() {
-        
     }
     
     public func dispatch(action: CarouselAction) {
         switch action {
         case .getlist:
             getlistNowplaying()
+        case let .goDetail(id):
+            step = .detail(idMovie: id)
         }
     }
     func getlistNowplaying() {

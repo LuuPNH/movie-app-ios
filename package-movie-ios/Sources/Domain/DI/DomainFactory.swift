@@ -29,4 +29,8 @@ extension Container {
     public static let categoriesUseCase = Factory {
         CategoriesUseCase()
     }
+    
+    public static let detailUseCase = Factory {
+        DetailUseCase()
+    }
 }

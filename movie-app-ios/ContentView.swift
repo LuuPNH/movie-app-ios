@@ -20,7 +20,7 @@ enum ContentStep: Step {
 enum ContentViewType {
     case splash
     case onboarding
-    case home
+    case main
 }
 
 struct ContentContainerView: View {
@@ -34,7 +34,7 @@ struct ContentContainerView: View {
     @StateObject var router = ContentStep.router()
     @StateObject var splashRouter: Router<SplashStep> = SplashStep.router()
     @StateObject var onBoardingRouter: Router<OnboardingStep> = OnboardingStep.router()
-    @StateObject var homeRouter: Router<HomeStep> = HomeStep.router()
+    @StateObject var homeRouter: Router<MainStep> = MainStep.router()
     
     @State var viewType: ContentViewType = .splash
     
@@ -71,8 +71,8 @@ struct ContentContainerView: View {
                 .environmentObject(splashRouter)
                 .onReceive(splashRouter.stream) { step in
                     switch step {
-                    case .home:
-                        viewType = .home
+                    case .main:
+                        viewType = .main
                     case .onboard:
                         viewType = .onboarding
                     }
@@ -83,12 +83,12 @@ struct ContentContainerView: View {
                 .onReceive(onBoardingRouter.stream) { step in
                     
                     switch step {
-                    case .home:
-                        viewType = .home
+                    case .main:
+                        viewType = .main
                     }
                 }
-        case .home:
-            HomeView()
+        case .main:
+            MainView()
                 .environmentObject(homeRouter)
                 .environment(\.theme, themeEnvironmentValue)
         }

@@ -16,7 +16,7 @@ public enum CategoriesStep: Step {
 }
 
 public enum CategoriesAction {
-    case getList
+    case showAll
 }
 
 public class CategoriesViewModel: ViewModel {
@@ -29,6 +29,8 @@ public class CategoriesViewModel: ViewModel {
     
     @Published var selectItem: ItemCategoriesMovie
     
+    @Published var isShowAll: Bool = false
+    
     public init() {
         self.tuples = CategoriesMovie.allCases.map { ItemCategoriesMovie(type: $0, movies: [],isLoading: true) }
         self.selectItem = ItemCategoriesMovie(type: .nowPlaying, movies: [], isLoading: true)
@@ -37,8 +39,8 @@ public class CategoriesViewModel: ViewModel {
     
     public func dispatch(action: CategoriesAction) {
         switch action {
-        case .getList:
-            return
+        case .showAll:
+            isShowAll = true
         }
     }
     
@@ -58,9 +60,11 @@ public class CategoriesViewModel: ViewModel {
             let findItem = tuples.firstIndex { $0.type == tab }
             if(tuples[findItem!].movies.isEmpty) {
                 let movies = try await getListMovie(tab);
-                tuples[findItem!] = tuples[findItem!].copyWith(movies: movies, isLoading: false)
+                tuples[findItem!].movies = movies
             }
             selectItem = tuples[findItem!]
+        } onFinished: {
+            self.selectItem.isLoading = false
         }
     }
 }
