@@ -18,9 +18,12 @@ struct CategoriesItem: View {
     
     var showAll: () -> Void
     
-    public init(value: ItemCategoriesMovie, showAll: @escaping () -> Void) {
+    var onTapMovie: (Int) -> Void
+    
+    public init(value: ItemCategoriesMovie, showAll: @escaping () -> Void, onTapMovie: @escaping (Int) -> Void) {
         self.value = value
         self.showAll = showAll
+        self.onTapMovie = onTapMovie
     }
     
     var body: some View {
@@ -117,6 +120,9 @@ struct CategoriesItem: View {
                                     .background(theme.blue252836)
                                     .cornerRadius(16)
                                 }
+                            }
+                            .onTapGesture {
+                                onTapMovie(movie.id)
                             }
                         }
                     }

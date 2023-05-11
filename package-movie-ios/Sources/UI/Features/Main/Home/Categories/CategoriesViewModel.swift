@@ -11,17 +11,17 @@ import Domain
 import Common
 
 public enum CategoriesStep: Step {
-    case categories
-    case detail
+    case goDetail(idMovie: Int)
 }
 
 public enum CategoriesAction {
     case showAll
+    case goDetail(idMovie: Int)
 }
 
 public class CategoriesViewModel: ViewModel {
     
-    @Published var step: CategoriesStep = .categories
+    @Published var step: CategoriesStep?
     
     @Injected(Container.categoriesUseCase) var categoriesUseCase
     
@@ -41,6 +41,9 @@ public class CategoriesViewModel: ViewModel {
         switch action {
         case .showAll:
             isShowAll = true
+        case let .goDetail(idMovie):
+            isShowAll = false
+            step = .goDetail(idMovie: idMovie)
         }
     }
     

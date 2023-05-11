@@ -11,27 +11,34 @@ import DependencyKit
 import Common
 
 public enum TodayStep: Step {
-    case today
-    case detail
+    case goDetail(idMovie: Int)
 }
 
-public enum TodayAction {}
+public enum TodayAction {
+    case getlistMovie
+    case goDetail(idMovie: Int)
+}
 
-public class TodayViewModel: ObservableObject {
+public class TodayViewModel: ViewModel {
     
     @Injected(Container.theMovieDBService) var theMovieDBService
     
-    @Published var step: TodayStep = .today
+    @Published var step: TodayStep?
     
     @Published var movies: [Movie] = []
     @Published var isLoading: Bool = true
     
     public init() {
-        getListMovie()
+        dispatch(action: .getlistMovie)
     }
     
     public func dispatch(action: TodayAction) {
-        
+        switch action {
+        case .getlistMovie:
+            getListMovie()
+        case let .goDetail(idMovie):
+            step = .goDetail(idMovie: idMovie)
+        }
     }
     
     func getListMovie() {

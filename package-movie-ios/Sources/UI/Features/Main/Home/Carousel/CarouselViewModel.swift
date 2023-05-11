@@ -13,8 +13,7 @@ import SwiftUI
 import Common
 
 public enum CarouselStep: Step {
-    case carousel
-    case detail(idMovie: Int)
+    case goDetail(idMovie: Int)
 }
 
 public enum CarouselAction {
@@ -24,7 +23,7 @@ public enum CarouselAction {
 
 public class CarouselViewModel: ViewModel {
     
-    @Published var step: CarouselStep = .carousel
+    @Published var step: CarouselStep?
     
     @Injected(Container.carouselUseCase) var carouselUseCase
     
@@ -40,7 +39,7 @@ public class CarouselViewModel: ViewModel {
         case .getlist:
             getlistNowplaying()
         case let .goDetail(id):
-            step = .detail(idMovie: id)
+            step = .goDetail(idMovie: id)
         }
     }
     func getlistNowplaying() {

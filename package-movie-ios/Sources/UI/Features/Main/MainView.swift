@@ -10,7 +10,7 @@ import Common
 import Resources
 import Domain
 
-public enum Navi {
+public enum MainNavigator {
     case main
     case detail(idMovie: Int)
 }
@@ -27,7 +27,7 @@ public struct MainView: View {
     
     @State var showPopupError: Bool = false
     
-    @State var navi: Navi?
+    @State var mainNavigator: MainNavigator?
     
     public init() {}
     
@@ -43,12 +43,12 @@ public struct MainView: View {
                     .onReceive(homeRouter.stream) { step in
                         switch step {
                         case let .goDetail(idMovie):
-                            navi = .detail(idMovie: idMovie)
+                            mainNavigator = .detail(idMovie: idMovie)
                         case .home:
                             return
                         }
                     }
-                    .navigation(model: $navi) { navi in
+                    .navigation(model: $mainNavigator) { navi in
                         switch navi {
                         case let .detail(idMovie):
                             DetailView(idMovie: idMovie)

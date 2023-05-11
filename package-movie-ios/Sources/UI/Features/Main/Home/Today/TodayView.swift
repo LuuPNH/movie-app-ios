@@ -12,7 +12,10 @@ import Common
 struct TodayView: View {
     
     @SwiftUI.Environment(\.theme) var theme: AppTheme
+    
     @EnvironmentObject var router: Router<TodayStep>
+    
+    @EnvironmentObject var appError: AppError<Error>
     
     @StateObject var viewModel: TodayViewModel = TodayViewModel()
     
@@ -29,10 +32,19 @@ struct TodayView: View {
                 .padding(.horizontal, 16)
             ForEach(viewModel.movies) { movie in
                 MovieShowDisplay(movie: movie)
+                    .onTapGesture {
+                        viewModel.dispatch(action: .goDetail(idMovie: movie.id))
+                    }
             }
             
         }
         .padding(.vertical, 16)
         .background(theme.primary)
+        .onReceive(viewModel.errorHandler.errorSubject) { error in
+            appError.pushError(to: error)
+        }
+        .onReceive(viewModel.$step) { step in
+            router.go(to: step)
+        }
     }
 }

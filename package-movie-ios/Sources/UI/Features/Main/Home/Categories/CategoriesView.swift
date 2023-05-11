@@ -13,7 +13,7 @@ import Common
 
 public struct CategoriesView: View {
     
-    @EnvironmentObject var router: Router<CarouselStep>
+    @EnvironmentObject var router: Router<CategoriesStep>
     
     @EnvironmentObject var appError: AppError<Error>
     
@@ -53,6 +53,8 @@ public struct CategoriesView: View {
             
             CategoriesItem(value: viewModel.selectItem) {
                 viewModel.dispatch(action: .showAll)
+            } onTapMovie: { idMovie in
+                viewModel.dispatch(action: .goDetail(idMovie: idMovie))
             }
             
         }
@@ -69,6 +71,9 @@ public struct CategoriesView: View {
                     
                     ForEach(viewModel.selectItem.movies) { movie in
                         MovieShowDisplay(movie: movie)
+                            .onTapGesture {
+                                viewModel.dispatch(action: .goDetail(idMovie: movie.id))
+                            }
                     }
                 }
             }
@@ -76,6 +81,9 @@ public struct CategoriesView: View {
         }
         .onReceive(viewModel.errorHandler.receiveError()) { error in
             appError.pushError(to: error)
+        }
+        .onReceive(viewModel.$step) { step in
+            router.go(to: step)
         }
     }
     

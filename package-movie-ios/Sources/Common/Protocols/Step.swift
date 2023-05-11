@@ -32,8 +32,9 @@ public final class Router<Route: Step>: ObservableObject {
     
     public init() {}
     
-    public func go(to route: Route) {
-        routeSubject.send(route)
+    public func go(to route: Route?) {
+        if route == nil { return }
+        routeSubject.send(route!)
     }
     
     public func inject(from subject: PassthroughSubject<Route, Never>) -> AnyCancellable {

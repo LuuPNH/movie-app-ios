@@ -34,6 +34,7 @@ public struct DetailView: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 }
+                .padding(.top, 72)
                 .frame(maxWidth: .infinity)
             } else if viewModel.movie != nil {
                 VStack(alignment: .leading) {
@@ -161,12 +162,14 @@ public struct DetailView: View {
                             .cornerRadius(8)
                     }
                 }
+                .padding(.top, 72)
                 .frame(maxWidth: .infinity)
             }
         }
         .background(theme.primary)
         .frame(maxWidth: .infinity)
         .navigationBarBackButtonHidden()
+        .ignoresSafeArea()
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 HStack {

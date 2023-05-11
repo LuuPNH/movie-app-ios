@@ -43,26 +43,27 @@ public struct HomeView: View {
                     .environmentObject(carouselRouter)
                     .onReceive(carouselRouter.stream) { step in
                         switch step {
-                        case .carousel:
-                            return
-                        case let .detail(id):
+                        case let .goDetail(id):
                             viewModel.dispatch(action: .goDetail(idMovie: id))
                         }
-                        
-                        
                     }
                 
                 CategoriesView()
                     .environmentObject(categoriesRouter)
                     .onReceive(categoriesRouter.stream) { step in
-                        print("++++ CategoriesView step: \(step)")
+                        switch step {
+                        case let .goDetail(id):
+                            viewModel.dispatch(action: .goDetail(idMovie: id))
+                        }
                     }
                 TodayView()
                     .environmentObject(todayRouter)
                     .onReceive(todayRouter.stream) { step in
-                        print("++++ TodayView step: \(step)")
+                        switch step {
+                        case let .goDetail(id):
+                            viewModel.dispatch(action: .goDetail(idMovie: id))
+                        }
                     }
-                
             }
             .onReceive(viewModel.$step) { step in
                 router.go(to: step)
