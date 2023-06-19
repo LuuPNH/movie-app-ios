@@ -215,10 +215,11 @@ public struct DetailView: View {
             }
             .onReceive(viewModel.errorHandler.errorSubject) { error in
                 appError.pushError(to: error)
-                print("++++++++Error detail+++++++")
+                Logger.e(error)
             }
             .navigation(model: $viewModel.videoMovie) { value in
-                YouTubeView(videoId: value.id)
+                YouTubeView(videoId: value.key)
+                    .ignoresSafeArea()
             }
         }
         .navigationBarHidden(true)

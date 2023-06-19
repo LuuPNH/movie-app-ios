@@ -12,14 +12,16 @@ public class VideoMovie {
     let type: String
     let official: Bool
     let publishedAt: String
-    public let id: String
+    let id: String
+    public let key: String
     
-    public init(site: String, size: Int, type: String, official: Bool, publishedAt: String, id: String) {
+    public init(site: String, size: Int, type: String, official: Bool, publishedAt: String, id: String, key: String) {
         self.site = site
         self.size = size
         self.type = type
         self.official = official
         self.publishedAt = publishedAt
         self.id = id
+        self.key = key
     }
 }

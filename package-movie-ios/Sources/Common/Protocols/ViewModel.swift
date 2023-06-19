@@ -1,4 +1,5 @@
 import Foundation
+import Domain
 
 public protocol ViewModel: ObservableObject {
     associatedtype Action = Never
@@ -21,7 +22,6 @@ public extension ViewModel {
                 self.errorHandler = obj
                 return obj
             }
-
             return obj
         }
         set {
@@ -34,6 +34,7 @@ public extension ViewModel {
             guard let obj = objc_getAssociatedObject(self, &asyncTaskKey) as? AsyncTask else {
                 let obj = AsyncTask()
                 obj.catchError(in: errorHandler)
+                    Logger.e(errorHandler)
                 self.asyncTask = obj
                 return obj
             }

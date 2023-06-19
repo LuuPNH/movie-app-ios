@@ -6,14 +6,16 @@
 //
 
 import Foundation
+import Domain
+
 struct ResultDataMapper<T: Codable>: Codable {
-    let result: T?
+    let result: T
     
-    init(result: T?) {
+    init(result: T) {
         self.result = result
     }
     
-    enum ResultDataMapper: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case result = "results"
     }
 }

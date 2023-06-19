@@ -13,18 +13,20 @@ public struct VideoMovieMapper: Codable {
     let size: Int?
     let type: String?
     let official: Bool?
-    let publishedAt, id: String?
+    let publishedAt, id, key: String?
     
-    enum VideoMovieMapper: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case site
         case size
         case type
         case official
         case publishedAt = "published_at"
         case id
+        case key
     }
     
     func toDomain() throws -> VideoMovie  {
+        
         if id == nil {
             throw ErrorModelMapper(message: "Video have ID empty")
         }
@@ -34,7 +36,8 @@ public struct VideoMovieMapper: Codable {
             type: type ?? "",
             official: official ?? false,
             publishedAt: publishedAt ?? "",
-            id: id!
+            id: id!,
+            key: key ?? ""
         )
     }
 }
