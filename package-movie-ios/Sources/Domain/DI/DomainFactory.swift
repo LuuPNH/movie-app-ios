@@ -33,4 +33,7 @@ extension Container {
     public static let detailUseCase = Factory {
         DetailUseCase()
     }
+    public static let videoMovieUseCase = Factory {
+        VideoMovieUseCase()
+    }
 }

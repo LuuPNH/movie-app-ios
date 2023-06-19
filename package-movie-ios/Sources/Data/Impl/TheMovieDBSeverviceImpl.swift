@@ -1,5 +1,5 @@
 //
-//  CarouselSeverviceImpl.swift
+//  TheMovieDBSeverviceImpl.swift
 //  
 //
 //  Created by Luu Phan on 01/03/2023.
@@ -13,6 +13,15 @@ import Moya
 
 
 public class TheMovieDBSeverviceImpl: TheMovieDBService {
+    public func getVideoMovie(id: Int) async throws -> VideoMovie {
+        
+        let data: ResultDataMapper<[VideoMovieMapper]> = try await network.request(targetType: TheMovieDBApiTarget.getVideoMovie(id: id))
+        Logger.d(data)
+        if let result = data.result?.first {
+            return try result.toDomain()
+        }
+        throw ErrorModelMapper(message: "No Video")
+    }
     
     public func getDetailMovie(id: Int) async throws -> Domain.Movie {
         do {
@@ -25,7 +34,7 @@ public class TheMovieDBSeverviceImpl: TheMovieDBService {
     
     public func getTrendingMovies() async throws -> [Domain.Movie] {
         do {
-            let data: ResultDataMapper = try await network.request(targetType: TheMovieDBApiTarget.getListDataCustom(path: "trending/movie/day"))
+            let data: ResultDataMovieMapper = try await network.request(targetType: TheMovieDBApiTarget.getListDataCustom(path: "trending/movie/day"))
             return data.toDomain().data
         } catch let error {
             throw error
@@ -34,7 +43,7 @@ public class TheMovieDBSeverviceImpl: TheMovieDBService {
     
     public func getListMovie(page: Int, type: CategoriesMovie) async throws -> [Movie] {
         do {
-            let data: ResultDataMapper = try await network.request(targetType: TheMovieDBApiTarget.getListMovie(page: page, type: type))
+            let data: ResultDataMovieMapper = try await network.request(targetType: TheMovieDBApiTarget.getListMovie(page: page, type: type))
             let movies: [Movie] = data.toDomain().data
             return movies
         } catch let error {
@@ -49,6 +58,7 @@ enum TheMovieDBApiTarget {
     case getListMovie(page: Int, type: CategoriesMovie)
     case getListDataCustom(page: Int = 1, path: String)
     case getDataCustom(path: String)
+    case getVideoMovie(id: Int)
 }
 
 extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
@@ -77,6 +87,8 @@ extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
             return path
         case .getDataCustom(path: let path):
             return path
+        case .getVideoMovie(id: let id):
+            return "movie/\(id)/videos"
         }
     }
     
@@ -105,6 +117,13 @@ extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
                     ],
                 encoding: URLEncoding.default)
         case .getDataCustom:
+            return .requestParameters(
+                parameters:
+                    [
+                        "api_key" : env.apiKey,
+                    ],
+                encoding: URLEncoding.default)
+        case .getVideoMovie:
             return .requestParameters(
                 parameters:
                     [

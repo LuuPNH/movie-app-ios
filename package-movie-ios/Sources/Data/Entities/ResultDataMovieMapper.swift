@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-struct ResultDataMapper: Codable {
+struct ResultDataMovieMapper: Codable {
     let data: [MovieMapper]
     let page: Int
     let totalPages: Int

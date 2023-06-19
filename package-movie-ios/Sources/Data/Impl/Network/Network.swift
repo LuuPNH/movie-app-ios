@@ -98,11 +98,11 @@ extension Network {
         private var isCancelled = false
 
         deinit {
-            dLog("++++ \(self) deinit")
+            Logger.i("--> Deinit: \(self) ")
         }
 
         init() {
-            dLog("++++ \(self) init")
+            Logger.i("--> init: \(self) ")
         }
 
         func execute(with continuation: CheckedContinuation<T, Error>, task: (NetworkActor<T>) -> Moya.Cancellable) {
