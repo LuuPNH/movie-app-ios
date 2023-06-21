@@ -15,10 +15,10 @@ import Moya
 public class TheMovieDBSeverviceImpl: TheMovieDBService {
     public func getVideoMovie(id: Int) async throws -> VideoMovie {
         let data: ResultDataMapper<[VideoMovieMapper]> = try await network.request(targetType: TheMovieDBApiTarget.getVideoMovie(id: id))
-        if let result = data.result.first {
+        if let result = data.result?.first {
             return try result.toDomain()
         }
-        throw ErrorModelMapper(message: "No Video")
+        throw ErrorModelMapper(message: "No Video", filePath: #filePath)
     }
     
     public func getDetailMovie(id: Int) async throws -> Domain.Movie {

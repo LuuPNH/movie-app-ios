@@ -14,33 +14,34 @@ public func dLog(_ message: String) {
 }
 
 public class Logger {
-    static public func d(_ content: Any) -> Void {
+    
+    static public func d(_ content: Any, fileName: String = "Unkown path") -> Void {
         #if DEBUG
-        print("🐛🐛🐛 <-- ++ DEBUG -->\n \(content)\n🐛🐛🐛 <--- End ---> \n")
+        print("🐛🐛🐛 <-- ++ DEBUG --> \n 👉 Path: \(fileName) \n 👉 Content: \(content)\n 🐛🐛🐛 <--- End ---> \n")
         #endif
     }
     
-    static public func i(_ content: Any) -> Void {
+    static public func i(_ content: Any, fileName: String = "Unkown path") -> Void {
         #if DEBUG
-        print("💡💡💡 <-- ++ INFO --> \n \(content)\n💡💡💡<--- End --->\n")
+        print("💡💡💡 <-- ++ INFO --> \n 👉 Path file: \(fileName) \n 👉 Content: \(content)\n 💡💡💡 <--- End --->\n")
         #endif
     }
     
-    static public func e(_ content: Any) -> Void {
+    static public func e(_ content: Any, fileName: String = "Unkown path") -> Void {
         #if DEBUG
-        print("🔴🔴🔴 <-- ++ ERROR --> :\n \(content)\n🔴🔴🔴<--- End --->\n")
+        print("⛔⛔⛔ <-- ++ ERROR --> \n 👉 Path file: \(fileName) \n 👉 Content: \(content)\n ⛔⛔⛔ <--- End --->\n")
         #endif
     }
     
-    static public func w(_ content: Any) -> Void {
+    static public func w(_ content: Any, fileName: String = "Unkown path") -> Void {
         #if DEBUG
-        print("⚠️⚠️⚠️ <-- ++ WARNING --> :\n \(content)\n⚠️⚠️⚠️<--- End --->\n")
+        print("⚠️⚠️⚠️ <-- ++ WARNING --> \n 👉 Path file: \(fileName) :\n 👉 Content: \(content)\n ⚠️⚠️⚠️ <--- End --->\n")
         #endif
     }
     
-    static public func v(_ content: Any) -> Void {
+    static public func v(_ content: Any, fileName: String = "Unkown path") -> Void {
         #if DEBUG
-        print("👾👾👾 <-- ++ VERBOSE --> :\n \(content)\n👾👾👾<--- End --->\n")
+        print("👾👾👾 <-- ++ VERBOSE --> \n 👉 Path file: \(fileName) :\n 👉 Content: \(content)\n 👾👾👾 <--- End --->\n")
         #endif
     }
 }

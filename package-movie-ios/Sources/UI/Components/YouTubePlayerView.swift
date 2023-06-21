@@ -13,7 +13,6 @@ import Domain
 struct YouTubeView: UIViewRepresentable {
     let videoKey: String
     
-    
     init(videoId: String) {
         Logger.i("++ YouTubeView init: \(videoId)")
         self.videoKey = videoId

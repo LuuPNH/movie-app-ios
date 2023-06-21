@@ -219,6 +219,7 @@ public struct DetailView: View {
             }
             .navigation(model: $viewModel.videoMovie) { value in
                 YouTubeView(videoId: value.key)
+                    .background(theme.value.primary)
                     .ignoresSafeArea()
             }
         }

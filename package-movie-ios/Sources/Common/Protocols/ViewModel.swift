@@ -34,7 +34,7 @@ public extension ViewModel {
             guard let obj = objc_getAssociatedObject(self, &asyncTaskKey) as? AsyncTask else {
                 let obj = AsyncTask()
                 obj.catchError(in: errorHandler)
-                    Logger.e(errorHandler)
+                    
                 self.asyncTask = obj
                 return obj
             }
@@ -42,6 +42,7 @@ public extension ViewModel {
             return obj
         }
         set {
+//            Logger.e(newValue.)
             objc_setAssociatedObject(self, &asyncTaskKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }

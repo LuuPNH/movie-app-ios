@@ -9,7 +9,8 @@ import Foundation
 public struct ErrorModelMapper: Error {
     let message: String
     
-    public init(message: String) {
+    public init(message: String, filePath: String = #filePath) {
+        Logger.e(message, fileName: filePath)
         self.message = message
     }
 }
