@@ -42,7 +42,6 @@ public extension ViewModel {
             return obj
         }
         set {
-//            Logger.e(newValue.)
             objc_setAssociatedObject(self, &asyncTaskKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }

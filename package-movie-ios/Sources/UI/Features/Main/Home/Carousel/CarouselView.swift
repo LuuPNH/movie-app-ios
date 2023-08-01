@@ -47,10 +47,6 @@ struct CarouselView: View {
             }
         }
         .frame(height: 180)
-        .onAppear{
-            print("++++++++Init get list movie++++++++++")
-            viewModel.dispatch(action: .getlist)
-        }
         .onReceive(viewModel.errorHandler.receiveError()) { error in
             appError.pushError(to: error)
         }

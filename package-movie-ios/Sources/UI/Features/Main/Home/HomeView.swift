@@ -16,7 +16,7 @@ public struct HomeView: View {
     
     @SwiftUI.Environment(\.theme) var theme: AppTheme
     
-    @EnvironmentObject var router: Router<HomeStep>
+    @EnvironmentObject var mainRouter: Router<HomeStep>
     
     @StateObject var headerHomeRouter: Router<HeaderHomeStep> = HeaderHomeStep.router()
     
@@ -26,7 +26,7 @@ public struct HomeView: View {
     
     @StateObject var todayRouter: Router<TodayStep> = TodayStep.router()
     
-    @ObservedObject var viewModel: HomeViewModel = HomeViewModel()
+    @StateObject var viewModel: HomeViewModel = HomeViewModel()
     
     public init() {}
     
@@ -38,7 +38,6 @@ public struct HomeView: View {
                     .onReceive(headerHomeRouter.stream) { step in
                         
                     }
-                SearchHomeView()
                 CarouselView()
                     .environmentObject(carouselRouter)
                     .onReceive(carouselRouter.stream) { step in
@@ -66,7 +65,7 @@ public struct HomeView: View {
                     }
             }
             .onReceive(viewModel.$step) { step in
-                router.go(to: step)
+                mainRouter.go(to: step)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

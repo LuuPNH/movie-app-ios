@@ -23,6 +23,8 @@ public struct MainView: View {
     
     @ObservedObject var homeRouter: Router<HomeStep> = Router<HomeStep>()
     
+    @ObservedObject var searchRouter: Router<SearchStep> = Router<SearchStep>()
+    
     @StateObject var appError: AppError = AppError<Error>()
     
     @State var showPopupError: Bool = false
@@ -48,19 +50,16 @@ public struct MainView: View {
                             return
                         }
                     }
-                    .navigation(model: $mainNavigator) { navi in
-                        switch navi {
-                        case let .detail(idMovie):
-                            DetailView(idMovie: idMovie)
-                                .environmentObject(appError)
-                        default:
-                            EmptyView()
+                SearchView()
+                    .tag(AppTab.search)
+                    .environmentObject(appError)
+                    .environmentObject(searchRouter)
+                    .onReceive(searchRouter.stream) { step in
+                        switch step {
+                        case let .goDetail(idMovie):
+                            mainNavigator = .detail(idMovie: idMovie)
                         }
                     }
-                
-                Text("Search")
-                    .font(.system(size: 40, weight: .bold, design: .default))
-                    .tag(AppTab.search)
                 
                 Text("Download")
                     .font(.system(size: 40, weight: .bold, design: .default))
@@ -88,6 +87,15 @@ public struct MainView: View {
                     .background(theme.primary)
                 }
                 .animation(.easeInOut, value: viewModel.appTab)
+            }
+            .navigation(model: $mainNavigator) { navi in
+                switch navi {
+                case let .detail(idMovie):
+                    DetailView(idMovie: idMovie)
+                        .environmentObject(appError)
+                default:
+                    EmptyView()
+                }
             }
         }
         .onReceive(appError.stream, perform: { error in

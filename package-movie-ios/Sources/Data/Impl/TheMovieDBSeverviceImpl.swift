@@ -13,6 +13,15 @@ import Moya
 
 
 public class TheMovieDBSeverviceImpl: TheMovieDBService {
+    public func getListSearchMovie(keyword: String, page: Int = 1) async throws -> [Domain.Movie] {
+        do {
+            let data: ResultDataMovieMapper = try await network.request(targetType: TheMovieDBApiTarget.getListSearchMovie(keyword: keyword, page: page))
+            return data.toDomain().data
+        } catch let error {
+            throw error
+        }
+    }
+    
     public func getVideoMovie(id: Int) async throws -> VideoMovie {
         let data: ResultDataMapper<[VideoMovieMapper]> = try await network.request(targetType: TheMovieDBApiTarget.getVideoMovie(id: id))
         if let result = data.result?.first {
@@ -57,6 +66,7 @@ enum TheMovieDBApiTarget {
     case getListDataCustom(page: Int = 1, path: String)
     case getDataCustom(path: String)
     case getVideoMovie(id: Int)
+    case getListSearchMovie(keyword: String, page: Int = 1)
 }
 
 extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
@@ -87,6 +97,8 @@ extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
             return path
         case .getVideoMovie(id: let id):
             return "movie/\(id)/videos"
+        case .getListSearchMovie:
+            return "search/movie"
         }
     }
     
@@ -126,6 +138,16 @@ extension TheMovieDBApiTarget: TargetType, EnvironmentProvider {
                 parameters:
                     [
                         "api_key" : env.apiKey,
+                    ],
+                encoding: URLEncoding.default)
+        case .getListSearchMovie(keyword: let keyword, page: let page):
+            return .requestParameters(
+                parameters:
+                    [
+                        "api_key" : env.apiKey,
+                        "language": "en-US",
+                        "page": page,
+                        "query": keyword
                     ],
                 encoding: URLEncoding.default)
         }

@@ -16,6 +16,7 @@ public enum AppImages: String, ImageProviding {
     case ironman = "ironman"
     case deadpool = "deadpool"
     case error = "error"
+    case glass = "glass"
     
     public var imageBundle: Bundle { .resources }
 }

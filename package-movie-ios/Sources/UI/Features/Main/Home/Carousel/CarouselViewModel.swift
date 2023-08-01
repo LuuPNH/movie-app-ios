@@ -32,6 +32,7 @@ public class CarouselViewModel: ViewModel {
     @Published var listImageMovie: [Movie] = []
     
     public init() {
+        dispatch(action: .getlist)
     }
     
     public func dispatch(action: CarouselAction) {

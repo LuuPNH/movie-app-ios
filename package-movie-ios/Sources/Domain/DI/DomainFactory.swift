@@ -36,4 +36,7 @@ extension Container {
     public static let videoMovieUseCase = Factory {
         VideoMovieUseCase()
     }
+    public static let searchMovieUsecase = Factory {
+        SearchMovieUseCase()
+    }
 }
